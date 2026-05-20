@@ -1,651 +1,1047 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voice Ops AI | AI Receptionist for Real Estate</title>
-<meta name="description" content="Never miss a leasing call again. Voice Ops AI deploys a 24/7 AI receptionist for property management firms and brokerages in Sacramento — live in 7 days.">
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Voice Ops AI | AI Receptionist for Real Estate Brokerages</title>
+<meta name="description" content="Voice Ops AI deploys a 24/7 AI receptionist for Sacramento real estate brokerages. Never miss a buyer or seller inquiry again. Live in 7 days.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  :root {
-    --brand: #1a56db;
-    --brand-light: #e8f0fe;
-    --brand-dark: #0f3a9e;
-    --accent: #f97316;
-    --dark: #0b0f1a;
-    --surface: #111827;
-    --surface2: #1a2235;
-    --muted: #64748b;
-    --border: rgba(255,255,255,0.08);
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--dark);
-    color: #f1f5f9;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* Nav */
-  .nav-glass {
-    background: rgba(11,15,26,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.15);
+  --gold-border: rgba(201,168,76,0.25);
+  --obsidian: #080810;
+  --deep: #0c0c18;
+  --surface: #10101e;
+  --surface2: #16162a;
+  --glass: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.07);
+  --text: #f0ece4;
+  --muted: #6b6880;
+  --soft: #9e9aad;
+}
 
-  /* Hero */
-  .hero-grid {
-    background-image:
-      linear-gradient(rgba(26,86,219,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26,86,219,0.06) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-  .hero-glow {
-    position: absolute;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 900px; height: 700px;
-    background: radial-gradient(ellipse at center, rgba(26,86,219,0.18) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .badge-pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(26,86,219,0.12);
-    border: 1px solid rgba(26,86,219,0.3);
-    color: #93b4f8;
-    padding: 6px 16px; border-radius: 100px;
-    font-size: 13px; font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .badge-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #1a56db;
-    animation: pulse-dot 2s infinite;
-  }
-  @keyframes pulse-dot {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
+html { scroll-behavior: smooth; }
 
-  /* CTA Buttons */
-  .btn-primary {
-    background: var(--brand);
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-    text-decoration: none;
-  }
-  .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+body {
+  font-family: 'Archivo', sans-serif;
+  background: var(--obsidian);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
 
-  .btn-ghost {
-    background: transparent;
-    color: #cbd5e1;
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.12);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-    text-decoration: none;
-  }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); color: #fff; background: rgba(255,255,255,0.04); }
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.15s ease;
+  transform: translate(-12px, -12px);
+}
 
-  /* Cards */
-  .glass-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .glass-card:hover { border-color: rgba(26,86,219,0.3); transform: translateY(-3px); }
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
 
-  /* ROI Calculator */
-  .calc-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-  }
-  .result-box {
-    background: linear-gradient(135deg, rgba(26,86,219,0.15), rgba(26,86,219,0.05));
-    border: 1px solid rgba(26,86,219,0.25);
-    border-radius: 14px;
-    padding: 28px;
-    text-align: center;
-  }
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%; height: 6px;
-    background: var(--surface2);
-    border-radius: 3px;
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--brand);
-    cursor: pointer;
-    box-shadow: 0 0 0 4px rgba(26,86,219,0.15);
-  }
+/* NAV */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 24px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(8,8,16,0.95), transparent);
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--gold-dim);
+  position: relative;
+  overflow: hidden;
+}
+.nav-logo-mark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.2), transparent);
+}
+.nav-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text);
+}
+.nav-logo-text span { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 40px; list-style: none;
+}
+.nav-links a {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--obsidian);
+  background: var(--gold);
+  border: none; padding: 12px 28px;
+  cursor: none; text-decoration: none;
+  transition: all 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
 
-  /* How It Works */
-  .step-num {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(26,86,219,0.12);
-    border: 1px solid rgba(26,86,219,0.25);
-    color: #93b4f8;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative;
+  padding: 140px 64px 100px;
+  overflow: hidden;
+}
 
-  /* Pricing */
-  .pricing-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-  }
-  .pricing-card.featured {
-    border-color: rgba(26,86,219,0.5);
-    box-shadow: 0 0 60px rgba(26,86,219,0.12);
-  }
-  .pricing-badge {
-    background: var(--brand);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    font-family: 'Syne', sans-serif;
-    letter-spacing: 0.06em;
-    padding: 5px 14px;
-    border-radius: 0 0 10px 10px;
-    position: absolute; top: 0; left: 50%;
-    transform: translateX(-50%);
-  }
-  .check-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    color: #cbd5e1; font-size: 14px; line-height: 1.5;
-  }
-  .check-icon {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: rgba(26,86,219,0.15);
-    color: #93b4f8;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 1px; font-size: 10px;
-  }
+/* 3D orb */
+.hero-orb {
+  position: absolute;
+  right: -100px; top: 50%;
+  transform: translateY(-50%);
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 35% 35%,
+    rgba(201,168,76,0.22) 0%,
+    rgba(201,168,76,0.08) 30%,
+    rgba(120,80,20,0.04) 60%,
+    transparent 75%
+  );
+  filter: blur(1px);
+  animation: orb-breathe 8s ease-in-out infinite;
+}
+.hero-orb::before {
+  content: '';
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.12);
+  animation: orb-rotate 20s linear infinite;
+}
+.hero-orb::after {
+  content: '';
+  position: absolute;
+  inset: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.07);
+  animation: orb-rotate 30s linear infinite reverse;
+}
+@keyframes orb-breathe {
+  0%,100% { transform: translateY(-50%) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-52%) scale(1.04); opacity: 1; }
+}
+@keyframes orb-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-  /* Testimonial / Social proof */
-  .quote-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--brand);
-    border-radius: 12px;
-    padding: 24px 28px;
-  }
+/* Floating 3D rings */
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--gold-border);
+  pointer-events: none;
+}
+.ring-1 { width: 500px; height: 500px; right: 50px; top: 50%; transform: translateY(-50%) rotateX(75deg); opacity: 0.3; animation: ring-spin 25s linear infinite; }
+.ring-2 { width: 700px; height: 700px; right: -50px; top: 50%; transform: translateY(-50%) rotateX(75deg); opacity: 0.15; animation: ring-spin 35s linear infinite reverse; }
+.ring-3 { width: 300px; height: 300px; right: 150px; top: 50%; transform: translateY(-50%) rotateX(75deg); opacity: 0.2; animation: ring-spin 15s linear infinite; }
+@keyframes ring-spin {
+  from { transform: translateY(-50%) rotateX(75deg) rotateZ(0deg); }
+  to { transform: translateY(-50%) rotateX(75deg) rotateZ(360deg); }
+}
 
-  /* Demo CTA */
-  .demo-bar {
-    background: linear-gradient(135deg, rgba(26,86,219,0.15) 0%, rgba(26,86,219,0.05) 100%);
-    border: 1px solid rgba(26,86,219,0.2);
-    border-radius: 16px;
-    padding: 28px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 20px;
-  }
+/* Grid lines */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 60% 80% at 20% 50%, black 0%, transparent 70%);
+}
 
-  /* Footer */
-  footer { border-top: 1px solid var(--border); }
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
 
-  /* Divider */
-  .section-divider {
-    width: 48px; height: 3px;
-    background: var(--brand);
-    border-radius: 2px;
-    margin: 16px 0 24px;
-  }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+.hero-eyebrow::after {
+  content: '';
+  width: 40px; height: 1px;
+  background: linear-gradient(to left, transparent, var(--gold));
+}
 
-  /* Fade-in on scroll */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+h1 em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+h1 strong {
+  font-weight: 700;
+  display: block;
+}
 
-  /* Phone mockup */
-  .phone-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(26,86,219,0.15);
-    animation: ring-expand 3s ease-out infinite;
-    pointer-events: none;
-  }
-  @keyframes ring-expand {
-    0% { transform: scale(0.8); opacity: 0.6; }
-    100% { transform: scale(1.8); opacity: 0; }
-  }
+.hero-sub {
+  font-size: 16px; font-weight: 300;
+  line-height: 1.8;
+  color: var(--soft);
+  max-width: 480px;
+  margin-bottom: 48px;
+  border-left: 1px solid var(--gold-border);
+  padding-left: 20px;
+}
+
+.btn-group { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+.btn-gold {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--obsidian);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  border: none; padding: 16px 36px;
+  cursor: none; text-decoration: none;
+  position: relative; overflow: hidden;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-gold::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.btn-gold:hover::before { opacity: 1; }
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 20px 60px rgba(201,168,76,0.3); }
+
+.btn-outline {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  padding: 16px 36px;
+  cursor: none; text-decoration: none;
+  transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 10px;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.btn-outline:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  box-shadow: 0 0 40px rgba(201,168,76,0.1);
+}
+
+/* Stats bar */
+.stats-bar {
+  display: flex; gap: 48px; flex-wrap: wrap;
+  margin-top: 72px;
+  padding-top: 48px;
+  border-top: 1px solid var(--glass-border);
+  position: relative; z-index: 2;
+}
+.stat-item {}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* SECTION COMMON */
+section { position: relative; z-index: 2; }
+
+.section-tag {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-tag::after {
+  content: '';
+  flex: 1; max-width: 40px; height: 1px;
+  background: var(--gold);
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 4.5vw, 62px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+h2 em { font-style: italic; color: var(--gold); }
+h2 strong { font-weight: 700; }
+
+/* WHO IT SERVES */
+.serves { padding: 120px 64px; }
+.serves-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 64px; }
+
+.serve-card {
+  background: var(--surface);
+  padding: 56px 48px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+.serve-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+.serve-card:hover::before { transform: scaleX(1); }
+.serve-card:hover { background: var(--surface2); }
+
+.serve-card-primary { border-top: 2px solid var(--gold); }
+.serve-card-primary::before { display: none; }
+
+.serve-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px; font-weight: 300;
+  color: rgba(201,168,76,0.08);
+  line-height: 1;
+  position: absolute;
+  top: 24px; right: 32px;
+}
+.serve-icon {
+  width: 48px; height: 48px;
+  border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 18px;
+  margin-bottom: 28px;
+  background: var(--gold-dim);
+}
+.serve-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.serve-price {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+.serve-list { list-style: none; }
+.serve-list li {
+  font-size: 14px; font-weight: 300;
+  color: var(--soft);
+  line-height: 1.6;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.serve-list li:last-child { border-bottom: none; }
+.serve-list li::before {
+  content: '—';
+  color: var(--gold);
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* HOW IT WORKS */
+.process { padding: 120px 64px; background: var(--surface); }
+.process-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-top: 72px;
+  position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-border), var(--gold-border), transparent);
+}
+.process-step { padding: 0 32px; text-align: center; }
+.step-circle {
+  width: 56px; height: 56px;
+  border: 1px solid var(--gold-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+  background: var(--obsidian);
+  position: relative; z-index: 1;
+  transition: all 0.3s;
+}
+.step-circle:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  box-shadow: 0 0 40px rgba(201,168,76,0.2);
+}
+.step-num-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+}
+.process-step h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600;
+  margin-bottom: 12px;
+}
+.process-step p {
+  font-size: 13px; font-weight: 300;
+  color: var(--soft); line-height: 1.7;
+}
+
+/* ROI CALCULATOR */
+.calculator { padding: 120px 64px; }
+.calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 64px; }
+.calc-panel {
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-top: 2px solid var(--gold);
+  padding: 48px;
+}
+.calc-field { margin-bottom: 36px; }
+.calc-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.calc-val { color: var(--gold); font-weight: 700; }
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%; height: 1px;
+  background: var(--glass-border);
+  outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  background: var(--gold);
+  cursor: pointer;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.result-panel {
+  border: 1px solid var(--gold-border);
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+  padding: 48px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.result-panel::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 60%);
+  animation: result-glow 4s ease-in-out infinite;
+}
+@keyframes result-glow {
+  0%,100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.result-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+}
+.result-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px; font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  position: relative; z-index: 1;
+}
+.result-sub {
+  font-size: 13px; font-weight: 300;
+  color: var(--soft); margin-top: 16px;
+  line-height: 1.6;
+  position: relative; z-index: 1;
+}
+.result-divider {
+  width: 40px; height: 1px;
+  background: var(--gold-border);
+  margin: 28px auto;
+}
+
+/* DEMO BAR */
+.demo-bar-section { padding: 0 64px 120px; }
+.demo-bar {
+  background: var(--surface);
+  border: 1px solid var(--gold-border);
+  padding: 48px 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+  position: relative; overflow: hidden;
+}
+.demo-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+.demo-bar-left { display: flex; align-items: center; gap: 28px; }
+.demo-phone-visual {
+  width: 64px; height: 64px;
+  border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 22px;
+  position: relative; background: var(--gold-dim);
+  flex-shrink: 0;
+}
+.demo-phone-visual::before, .demo-phone-visual::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 50%;
+  animation: phone-ring 2.5s ease-out infinite;
+}
+.demo-phone-visual::before { inset: -12px; animation-delay: 0s; }
+.demo-phone-visual::after { inset: -24px; animation-delay: 0.8s; }
+@keyframes phone-ring {
+  0% { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+.demo-bar h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600;
+  margin-bottom: 6px;
+}
+.demo-bar p { font-size: 14px; font-weight: 300; color: var(--soft); }
+
+/* PRICING */
+.pricing { padding: 120px 64px; background: var(--surface); }
+.pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 64px; max-width: 900px; margin-left: auto; margin-right: auto; }
+.price-card {
+  background: var(--obsidian);
+  padding: 56px 48px;
+  position: relative;
+}
+.price-card-featured {
+  background: linear-gradient(160deg, var(--surface2) 0%, var(--obsidian) 100%);
+  border-top: 2px solid var(--gold);
+}
+.price-badge {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--obsidian);
+  background: var(--gold);
+  padding: 6px 16px;
+  display: inline-block;
+  margin-bottom: 32px;
+}
+.price-tier {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.price-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px; font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  display: flex; align-items: flex-start; gap: 4px;
+}
+.price-amount sup { font-size: 24px; margin-top: 12px; }
+.price-amount sub { font-size: 18px; align-self: flex-end; margin-bottom: 8px; color: var(--muted); }
+.price-setup {
+  font-size: 12px; color: var(--muted);
+  margin: 8px 0 32px;
+}
+.price-divider { height: 1px; background: var(--glass-border); margin: 32px 0; }
+.price-list { list-style: none; }
+.price-list li {
+  font-size: 14px; font-weight: 300;
+  color: var(--soft); line-height: 1.5;
+  padding: 10px 0;
+  display: flex; align-items: flex-start; gap: 12px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.price-list li:last-child { border-bottom: none; }
+.price-check { color: var(--gold); font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+.price-guarantee {
+  font-size: 11px; color: var(--muted);
+  margin-top: 20px; text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+/* FINAL CTA */
+.final-cta {
+  padding: 140px 64px;
+  text-align: center;
+  position: relative;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.final-cta h2 { max-width: 700px; margin: 0 auto 24px; }
+.final-cta p {
+  font-size: 16px; font-weight: 300;
+  color: var(--soft); max-width: 480px;
+  margin: 0 auto 48px; line-height: 1.8;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--glass-border);
+  padding: 48px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.footer-logo span { color: var(--gold); }
+footer p { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 12px; color: var(--muted);
+  text-decoration: none; letter-spacing: 0.08em;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 24px 80px; }
+  .hero-orb, .ring { display: none; }
+  .serves, .process, .calculator, .pricing, .final-cta, .demo-bar-section { padding-left: 24px; padding-right: 24px; }
+  .serves-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .process-grid::before { display: none; }
+  .calc-layout { grid-template-columns: 1fr; gap: 40px; }
+  footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
 </style>
 </head>
 <body>
 
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <!-- NAV -->
-<nav class="nav-glass fixed top-0 w-full z-50">
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-        <i class="fa-solid fa-phone-volume text-white text-sm"></i>
-      </div>
-      <span style="font-family:'Syne',sans-serif; font-weight:800; font-size:17px;">Voice Ops <span style="color:#93b4f8">AI</span></span>
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <i class="fa-solid fa-phone-volume" style="color:var(--gold);font-size:14px;position:relative;z-index:1;"></i>
     </div>
-    <div class="hidden md:flex items-center gap-8 text-sm" style="color:#94a3b8">
-      <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
-      <a href="#calculator" class="hover:text-white transition-colors">ROI Calculator</a>
-      <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-    </div>
-    <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-primary" style="padding:10px 22px; font-size:14px;">
-      Book a Free Demo
-    </a>
-  </div>
+    <span class="nav-logo-text">Voice Ops <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#calculator">ROI Calculator</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="nav-cta">Book a Demo</a>
 </nav>
 
 <!-- HERO -->
-<section class="hero-grid relative min-h-screen flex items-center pt-24 pb-20 overflow-hidden">
-  <div class="hero-glow"></div>
-  <div class="max-w-6xl mx-auto px-6 relative z-10">
-    <div class="max-w-3xl">
-      <div class="badge-pill mb-8">
-        <div class="badge-dot"></div>
-        Now serving Sacramento County — limited spots this month
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="ring ring-1"></div>
+  <div class="ring ring-2"></div>
+  <div class="ring ring-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Sacramento's AI Receptionist</div>
+    <h1>
+      <strong>Never Miss</strong>
+      <em>a buyer again.</em>
+    </h1>
+    <p class="hero-sub">
+      Voice Ops AI deploys a 24/7 intelligent receptionist for Sacramento real estate brokerages — answering every inquiry, qualifying every lead, booking every showing. Live in 7 days.
+    </p>
+    <div class="btn-group">
+      <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-gold">
+        Book a Free Demo <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i>
+      </a>
+      <a href="tel:+19168663930" class="btn-outline">
+        <i class="fa-solid fa-play" style="font-size:10px;"></i> Call the Demo Line
+      </a>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num">42%</div>
+        <div class="stat-label">of brokerage calls go unanswered</div>
       </div>
-      <h1 style="font-size:clamp(44px,6vw,78px); font-weight:800; line-height:1.05; letter-spacing:-0.02em; margin-bottom:28px;">
-        Every Leasing Call<br>Answered. <span style="color:#93b4f8;">Every Time.</span>
-      </h1>
-      <p style="font-size:19px; color:#94a3b8; line-height:1.7; max-width:560px; margin-bottom:40px;">
-        Voice Ops AI deploys a 24/7 AI receptionist for property management firms and brokerages — handling leasing inquiries, maintenance calls, and booking appointments. Live in 7 days.
-      </p>
-      <div class="flex flex-wrap gap-4 mb-16">
-        <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-primary">
-          Book a Free 30-Min Demo <i class="fa-solid fa-arrow-right text-xs"></i>
-        </a>
-        <a href="tel:+19168663930" class="btn-ghost">
-          <i class="fa-solid fa-play text-blue-400 text-xs"></i> Call the Live Demo Line
-        </a>
+      <div class="stat-item">
+        <div class="stat-num">$15K+</div>
+        <div class="stat-label">avg commission on a missed buyer</div>
       </div>
-      <!-- Stats row -->
-      <div class="flex flex-wrap gap-10">
-        <div>
-          <div style="font-family:'Syne',sans-serif; font-size:32px; font-weight:800; color:#fff;">42%</div>
-          <div style="font-size:13px; color:#64748b;">of SMB calls go unanswered</div>
-        </div>
-        <div style="width:1px; background:var(--border);"></div>
-        <div>
-          <div style="font-family:'Syne',sans-serif; font-size:32px; font-weight:800; color:#fff;">$1,500+</div>
-          <div style="font-size:13px; color:#64748b;">avg value of a missed leasing call</div>
-        </div>
-        <div style="width:1px; background:var(--border);"></div>
-        <div>
-          <div style="font-family:'Syne',sans-serif; font-size:32px; font-weight:800; color:#fff;">7 days</div>
-          <div style="font-size:13px; color:#64748b;">from signup to live AI agent</div>
-        </div>
+      <div class="stat-item">
+        <div class="stat-num">7 days</div>
+        <div class="stat-label">from contract to live AI agent</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHO IT'S FOR -->
-<section class="py-20 fade-in">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-14">
-      <div style="font-size:13px; font-weight:500; color:#93b4f8; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">Built for real estate</div>
-      <h2 style="font-size:clamp(28px,4vw,42px); font-weight:800;">Who Voice Ops AI serves</h2>
+<!-- WHO IT SERVES -->
+<section class="serves reveal" id="serves">
+  <div class="section-tag">Built for real estate</div>
+  <h2>Two markets. <em>One system.</em></h2>
+  <div class="serves-grid">
+    <div class="serve-card serve-card-primary reveal reveal-delay-1">
+      <div class="serve-num">01</div>
+      <div class="serve-icon"><i class="fa-solid fa-house"></i></div>
+      <h3>Brokerages & Teams</h3>
+      <div class="serve-price">From $599 / month</div>
+      <ul class="serve-list">
+        <li>Every buyer and seller inquiry answered instantly — 24/7, including weekends</li>
+        <li>Lead qualification before your agents ever pick up the phone</li>
+        <li>After-hours overflow handled — your team closes deals, not phone duty</li>
+        <li>One converted buyer lead covers months of the service cost</li>
+        <li>Custom scripts trained on your brokerage's voice and brand</li>
+      </ul>
     </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <!-- Property Management -->
-      <div class="glass-card p-8">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:rgba(26,86,219,0.12); border:1px solid rgba(26,86,219,0.2);">
-            <i class="fa-solid fa-building text-blue-400 text-lg"></i>
-          </div>
-          <div>
-            <h3 style="font-size:20px; font-weight:700; font-family:'Syne',sans-serif;">Property Management Firms</h3>
-            <p style="font-size:13px; color:#64748b; margin-top:2px;">50–500+ doors under management</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>AI handles tenant maintenance requests 24/7 and routes urgency to your on-call team</span></li>
-          <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>Answers leasing inquiries, qualifies prospects, and books showings directly to your calendar</span></li>
-          <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>Every call logged with a summary — no missed context, no sticky notes</span></li>
-          <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>One filled vacancy per month more than covers the service cost</span></li>
-        </ul>
-        <div style="margin-top:24px; padding:16px; background:rgba(26,86,219,0.06); border-radius:10px; border:1px solid rgba(26,86,219,0.12);">
-          <span style="font-size:13px; color:#93b4f8; font-weight:500;">Starting at $899/mo</span>
-        </div>
-      </div>
-      <!-- Brokerages -->
-      <div class="glass-card p-8">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2);">
-            <i class="fa-solid fa-house text-orange-400 text-lg"></i>
-          </div>
-          <div>
-            <h3 style="font-size:20px; font-weight:700; font-family:'Syne',sans-serif;">Brokerages & Teams</h3>
-            <p style="font-size:13px; color:#64748b; margin-top:2px;">Independent brokerages and agent teams</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Never send a buyer or seller inquiry to voicemail — the AI responds instantly, 24/7</span></li>
-          <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Qualifies inbound leads and routes hot buyers directly to the right agent</span></li>
-          <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Handles after-hours overflow — your agents close deals, not phone duty</span></li>
-          <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>One converted buyer lead pays for months of service</span></li>
-        </ul>
-        <div style="margin-top:24px; padding:16px; background:rgba(249,115,22,0.06); border-radius:10px; border:1px solid rgba(249,115,22,0.12);">
-          <span style="font-size:13px; color:#fb923c; font-weight:500;">Starting at $599/mo</span>
-        </div>
-      </div>
+    <div class="serve-card reveal reveal-delay-2">
+      <div class="serve-num">02</div>
+      <div class="serve-icon"><i class="fa-solid fa-building"></i></div>
+      <h3>Property Management</h3>
+      <div class="serve-price">From $899 / month</div>
+      <ul class="serve-list">
+        <li>Maintenance requests triaged and routed by urgency — around the clock</li>
+        <li>Leasing inquiries qualified and showing appointments booked automatically</li>
+        <li>Every call logged with a full summary — no missed context, no sticky notes</li>
+        <li>One filled vacancy per month covers the entire service cost</li>
+        <li>Scales with your portfolio — no extra headcount required</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how-it-works" class="py-20 fade-in" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="max-w-xl mb-14">
-      <div style="font-size:13px; font-weight:500; color:#93b4f8; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">The process</div>
-      <h2 style="font-size:clamp(28px,4vw,42px); font-weight:800; line-height:1.1;">From call to calendar<br>in under 2 minutes</h2>
-      <div class="section-divider"></div>
-      <p style="color:#94a3b8; font-size:16px; line-height:1.7;">Your AI receptionist handles the full intake — so your team only touches leads that are already qualified and ready to move.</p>
+<section class="process reveal" id="process">
+  <div class="section-tag">The process</div>
+  <h2>From first ring to <em>closed deal.</em></h2>
+  <div class="process-grid">
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-circle"><span class="step-num-text">I</span></div>
+      <h3>Call Received</h3>
+      <p>A buyer or seller calls your number. Alex answers on the first ring — day, night, or weekend. No voicemail. No hold music.</p>
     </div>
-    <div class="grid md:grid-cols-4 gap-6">
-      <div class="glass-card p-6">
-        <div class="step-num mb-4">01</div>
-        <h3 style="font-size:16px; font-weight:700; font-family:'Syne',sans-serif; margin-bottom:8px;">Call comes in</h3>
-        <p style="font-size:14px; color:#64748b; line-height:1.6;">Prospect or tenant dials your number. The AI picks up on the first ring — day, night, weekend.</p>
-      </div>
-      <div class="glass-card p-6">
-        <div class="step-num mb-4">02</div>
-        <h3 style="font-size:16px; font-weight:700; font-family:'Syne',sans-serif; margin-bottom:8px;">AI qualifies</h3>
-        <p style="font-size:14px; color:#64748b; line-height:1.6;">The agent asks smart intake questions — move-in date, budget, unit type — and assesses urgency.</p>
-      </div>
-      <div class="glass-card p-6">
-        <div class="step-num mb-4">03</div>
-        <h3 style="font-size:16px; font-weight:700; font-family:'Syne',sans-serif; margin-bottom:8px;">Appointment booked</h3>
-        <p style="font-size:14px; color:#64748b; line-height:1.6;">Showings or callbacks booked directly into your calendar. No back-and-forth, no missed slots.</p>
-      </div>
-      <div class="glass-card p-6">
-        <div class="step-num mb-4">04</div>
-        <h3 style="font-size:16px; font-weight:700; font-family:'Syne',sans-serif; margin-bottom:8px;">You get the summary</h3>
-        <p style="font-size:14px; color:#64748b; line-height:1.6;">Instant SMS and email with caller name, intent, and full transcript. Your team is briefed before calling back.</p>
-      </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-circle"><span class="step-num-text">II</span></div>
+      <h3>Lead Qualified</h3>
+      <p>Alex asks the right questions — timeline, budget, pre-approval status, area of interest — and assesses intent in real time.</p>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-circle"><span class="step-num-text">III</span></div>
+      <h3>Appointment Set</h3>
+      <p>Hot leads are booked directly into your agent's calendar. Warm leads are scheduled for a callback at the right moment.</p>
+    </div>
+    <div class="process-step reveal reveal-delay-4">
+      <div class="step-circle"><span class="step-num-text">IV</span></div>
+      <h3>You're Briefed</h3>
+      <p>Instant SMS and email with caller name, intent, budget, and full transcript. Your agent walks into every call already informed.</p>
     </div>
   </div>
 </section>
 
 <!-- ROI CALCULATOR -->
-<section id="calculator" class="py-20 fade-in">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-      <div>
-        <div style="font-size:13px; font-weight:500; color:#93b4f8; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">ROI calculator</div>
-        <h2 style="font-size:clamp(28px,4vw,42px); font-weight:800; line-height:1.1; margin-bottom:16px;">How much are missed calls<br>actually costing you?</h2>
-        <div class="section-divider"></div>
-        <p style="color:#94a3b8; font-size:16px; line-height:1.7; margin-bottom:28px;">
-          Property managers with 100+ doors typically miss 15–25 calls a week. Each missed leasing inquiry represents a vacant unit — and a vacant unit bleeds hundreds of dollars a day.
-        </p>
-        <ul class="space-y-4">
-          <li style="display:flex; align-items:flex-start; gap:12px; color:#94a3b8; font-size:15px;">
-            <i class="fa-solid fa-circle-xmark text-red-400 mt-1 flex-shrink-0"></i>
-            <span>Vacancy costs $50–$100/day in lost rent — every day a unit sits empty</span>
-          </li>
-          <li style="display:flex; align-items:flex-start; gap:12px; color:#94a3b8; font-size:15px;">
-            <i class="fa-solid fa-circle-xmark text-red-400 mt-1 flex-shrink-0"></i>
-            <span>Callers who hit voicemail rent from the next property manager they reach</span>
-          </li>
-          <li style="display:flex; align-items:flex-start; gap:12px; color:#94a3b8; font-size:15px;">
-            <i class="fa-solid fa-circle-xmark text-red-400 mt-1 flex-shrink-0"></i>
-            <span>After-hours calls — Fri 5pm to Mon 9am — are your highest-volume missed window</span>
-          </li>
-        </ul>
+<section class="calculator reveal" id="calculator">
+  <div class="section-tag">ROI Calculator</div>
+  <h2>See what missed calls <em>cost you.</em></h2>
+  <div class="calc-layout">
+    <div>
+      <p style="font-size:15px;font-weight:300;color:var(--soft);line-height:1.8;margin-bottom:40px;border-left:1px solid var(--gold-border);padding-left:20px;">
+        The average Sacramento brokerage misses 30–40% of inbound calls. Each missed buyer inquiry represents a potential $15,000–$25,000 commission. The math is brutal — and it compounds every week.
+      </p>
+      <div class="calc-panel">
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Agents on your team</span>
+            <span class="calc-val" id="agentsVal">8 agents</span>
+          </div>
+          <input type="range" id="agents" min="1" max="50" step="1" value="8">
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Avg commission per transaction</span>
+            <span class="calc-val" id="commVal">$12,000</span>
+          </div>
+          <input type="range" id="commission" min="5000" max="30000" step="500" value="12000">
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Missed inbound calls per week</span>
+            <span class="calc-val" id="missedVal">12 calls</span>
+          </div>
+          <input type="range" id="missed" min="1" max="60" step="1" value="12">
+        </div>
+        <div class="calc-field" style="margin-bottom:0;">
+          <div class="calc-label">
+            <span>Estimated lead-to-close rate</span>
+            <span class="calc-val" id="closeVal">8%</span>
+          </div>
+          <input type="range" id="closeRate" min="2" max="25" step="1" value="8">
+        </div>
       </div>
-      <div class="calc-card">
-        <h3 style="font-size:20px; font-weight:700; font-family:'Syne',sans-serif; margin-bottom:28px;">Monthly vacancy cost calculator</h3>
-        <div class="space-y-8">
-          <div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-              <label style="font-size:14px; color:#94a3b8;">Doors under management</label>
-              <span id="doorsDisplay" style="font-size:14px; font-weight:600; color:#93b4f8;">150 doors</span>
-            </div>
-            <input type="range" id="doors" min="10" max="1000" step="10" value="150">
-          </div>
-          <div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-              <label style="font-size:14px; color:#94a3b8;">Average monthly rent</label>
-              <span id="rentDisplay" style="font-size:14px; font-weight:600; color:#93b4f8;">$1,800/mo</span>
-            </div>
-            <input type="range" id="rent" min="800" max="5000" step="100" value="1800">
-          </div>
-          <div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-              <label style="font-size:14px; color:#94a3b8;">Avg days to fill a vacancy</label>
-              <span id="daysDisplay" style="font-size:14px; font-weight:600; color:#93b4f8;">21 days</span>
-            </div>
-            <input type="range" id="vacancyDays" min="7" max="90" step="1" value="21">
-          </div>
-          <div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-              <label style="font-size:14px; color:#94a3b8;">Estimated missed leasing calls/week</label>
-              <span id="callsDisplay" style="font-size:14px; font-weight:600; color:#93b4f8;">8 calls</span>
-            </div>
-            <input type="range" id="missedCalls" min="1" max="50" step="1" value="8">
-          </div>
-        </div>
-        <div class="result-box mt-8">
-          <p style="font-size:12px; color:#64748b; text-transform:uppercase; letter-spacing:0.08em; font-weight:500; margin-bottom:8px;">Estimated monthly cost of missed calls</p>
-          <div id="lostRevenue" style="font-family:'Syne',sans-serif; font-size:52px; font-weight:800; color:#fff; line-height:1;">$0</div>
-          <p style="font-size:12px; color:#64748b; margin-top:8px;">Voice Ops AI starts at $899/mo — one recovered leasing call covers it.</p>
-        </div>
-        <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-primary" style="width:100%; justify-content:center; margin-top:20px;">
-          See It In Action — Book Free Demo
+    </div>
+    <div>
+      <div class="result-panel">
+        <div class="result-label">Monthly commission left on the table</div>
+        <div class="result-amount" id="lostComm">$0</div>
+        <div class="result-divider"></div>
+        <div class="result-label">Annual opportunity cost</div>
+        <div class="result-amount" id="annualLost" style="font-size:42px;">$0</div>
+        <div class="result-sub">Voice Ops AI starts at $599/mo.<br>One recovered lead pays for the year.</div>
+        <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-gold" style="margin-top:32px;width:100%;justify-content:center;display:flex;cursor:pointer;">
+          Book Free Demo <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i>
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DEMO CTA BAR -->
-<section class="py-12 fade-in">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="demo-bar">
-      <div style="display:flex; align-items:center; gap:20px;">
-        <div style="position:relative; width:52px; height:52px; display:flex; align-items:center; justify-content:center;">
-          <div class="phone-ring" style="width:52px; height:52px; animation-delay:0s;"></div>
-          <div class="phone-ring" style="width:52px; height:52px; animation-delay:1s;"></div>
-          <div style="width:52px; height:52px; border-radius:50%; background:rgba(26,86,219,0.2); border:1px solid rgba(26,86,219,0.4); display:flex; align-items:center; justify-content:center; position:relative; z-index:1;">
-            <i class="fa-solid fa-phone text-blue-400 text-lg"></i>
-          </div>
-        </div>
-        <div>
-          <div style="font-family:'Syne',sans-serif; font-weight:700; font-size:17px;">Hear it for yourself</div>
-          <div style="font-size:14px; color:#64748b; margin-top:2px;">Call our live demo line and experience the AI handling a real leasing inquiry</div>
-        </div>
+<!-- DEMO BAR -->
+<section class="demo-bar-section reveal">
+  <div class="demo-bar">
+    <div class="demo-bar-left">
+      <div class="demo-phone-visual">
+        <i class="fa-solid fa-phone"></i>
       </div>
-      <a href="tel:+19168663930" class="btn-primary">
-        <i class="fa-solid fa-phone text-sm"></i> Call the Demo Line
-      </a>
+      <div>
+        <h3>Hear Alex answer a live call</h3>
+        <p>Call our demo line right now. Experience exactly what your buyers and sellers will hear — before you commit to anything.</p>
+      </div>
     </div>
+    <a href="tel:+19168663930" class="btn-gold" style="flex-shrink:0;">
+      <i class="fa-solid fa-phone" style="font-size:12px;"></i> (916) 866-3930
+    </a>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="pricing" class="py-20 fade-in" style="background:var(--surface); border-top:1px solid var(--border);">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-14">
-      <div style="font-size:13px; font-weight:500; color:#93b4f8; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">Pricing</div>
-      <h2 style="font-size:clamp(28px,4vw,42px); font-weight:800;">Simple. Flat. No surprises.</h2>
-      <p style="color:#64748b; font-size:16px; margin-top:12px; max-width:480px; margin-left:auto; margin-right:auto;">All minutes, API costs, and integrations included. One price, fully managed.</p>
+<section class="pricing reveal" id="pricing">
+  <div class="section-tag">Pricing</div>
+  <h2>Simple pricing. <em>Serious results.</em></h2>
+  <div class="pricing-grid">
+    <div class="price-card price-card-featured reveal reveal-delay-1">
+      <div class="price-badge">Primary — Brokerages</div>
+      <div class="price-tier">Brokerages & Teams</div>
+      <div class="price-amount"><sup>$</sup>599<sub>/mo</sub></div>
+      <div class="price-setup">+ $300 one-time setup fee</div>
+      <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-gold" style="width:100%;justify-content:center;display:flex;">
+        Get Started
+      </a>
+      <div class="price-divider"></div>
+      <ul class="price-list">
+        <li><i class="fa-solid fa-minus price-check"></i>24/7 AI receptionist for buyer & seller calls</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Lead qualification + agent routing</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Calendar booking integration</li>
+        <li><i class="fa-solid fa-minus price-check"></i>SMS + email call summaries</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Custom scripts for your brand</li>
+        <li><i class="fa-solid fa-minus price-check"></i>All minutes & API costs included</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Live in 7 business days</li>
+      </ul>
+      <div class="price-guarantee"><i class="fa-solid fa-shield-halved" style="color:var(--gold);font-size:11px;"></i> Month-to-month · Cancel anytime</div>
     </div>
-    <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-      <!-- Property Management -->
-      <div class="pricing-card featured pt-8">
-        <div class="pricing-badge">MOST POPULAR</div>
-        <div style="padding:32px 32px 0;">
-          <div style="font-size:13px; color:#64748b; font-weight:500; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.06em;">Property Management</div>
-          <div style="display:flex; align-items:baseline; gap:4px; margin-bottom:6px;">
-            <span style="font-family:'Syne',sans-serif; font-size:48px; font-weight:800;">$899</span>
-            <span style="color:#64748b;">/mo</span>
-          </div>
-          <p style="font-size:13px; color:#64748b; margin-bottom:24px;">+ $300 one-time setup fee</p>
-          <div style="height:1px; background:var(--border); margin-bottom:24px;"></div>
-          <ul class="space-y-4 mb-8">
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>24/7 AI receptionist — leasing & maintenance</span></li>
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>Calendar booking integration</span></li>
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>SMS + email summaries per call</span></li>
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>Custom scripts for your property types</span></li>
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>All API & telecom minutes included</span></li>
-            <li class="check-item"><div class="check-icon"><i class="fa-solid fa-check text-xs"></i></div><span>Live in 7 business days</span></li>
-          </ul>
-        </div>
-        <div style="padding:0 32px 32px;">
-          <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-primary" style="width:100%; justify-content:center;">
-            Book Free Demo Call
-          </a>
-          <p style="text-align:center; font-size:12px; color:#475569; margin-top:12px;"><i class="fa-solid fa-shield-halved mr-1"></i>Month-to-month · Cancel anytime</p>
-        </div>
-      </div>
-      <!-- Brokerage -->
-      <div class="pricing-card">
-        <div style="padding:32px 32px 0; padding-top:40px;">
-          <div style="font-size:13px; color:#64748b; font-weight:500; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.06em;">Brokerages & Teams</div>
-          <div style="display:flex; align-items:baseline; gap:4px; margin-bottom:6px;">
-            <span style="font-family:'Syne',sans-serif; font-size:48px; font-weight:800;">$599</span>
-            <span style="color:#64748b;">/mo</span>
-          </div>
-          <p style="font-size:13px; color:#64748b; margin-bottom:24px;">+ $300 one-time setup fee</p>
-          <div style="height:1px; background:var(--border); margin-bottom:24px;"></div>
-          <ul class="space-y-4 mb-8">
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>24/7 AI receptionist — buyer & seller inquiries</span></li>
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Lead qualification + agent routing</span></li>
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>SMS + email summaries per call</span></li>
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Custom scripts for your brand</span></li>
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>All API & telecom minutes included</span></li>
-            <li class="check-item"><div class="check-icon" style="background:rgba(249,115,22,0.1);color:#fb923c;"><i class="fa-solid fa-check text-xs"></i></div><span>Live in 7 business days</span></li>
-          </ul>
-        </div>
-        <div style="padding:0 32px 32px;">
-          <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-ghost" style="width:100%; justify-content:center;">
-            Book Free Demo Call
-          </a>
-          <p style="text-align:center; font-size:12px; color:#475569; margin-top:12px;"><i class="fa-solid fa-shield-halved mr-1"></i>Month-to-month · Cancel anytime</p>
-        </div>
-      </div>
-    </div>
-    <!-- ROI statement -->
-    <div class="quote-card max-w-2xl mx-auto mt-10">
-      <p style="font-size:16px; color:#94a3b8; line-height:1.7; font-style:italic;">"If this system captures just <strong style="color:#fff; font-style:normal;">one leasing call per month</strong> that would have gone to voicemail, it pays for itself — and then some. The average Sacramento vacancy costs $60–$80/day in lost rent."</p>
+    <div class="price-card reveal reveal-delay-2">
+      <div style="margin-bottom:32px;height:32px;"></div>
+      <div class="price-tier">Property Management</div>
+      <div class="price-amount"><sup>$</sup>899<sub>/mo</sub></div>
+      <div class="price-setup">+ $300 one-time setup fee</div>
+      <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-outline" style="width:100%;justify-content:center;display:flex;">
+        Get Started
+      </a>
+      <div class="price-divider"></div>
+      <ul class="price-list">
+        <li><i class="fa-solid fa-minus price-check"></i>24/7 AI receptionist — leasing & maintenance</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Urgency-based maintenance triage & routing</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Showing appointments booked automatically</li>
+        <li><i class="fa-solid fa-minus price-check"></i>SMS + email call summaries</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Custom scripts for your property types</li>
+        <li><i class="fa-solid fa-minus price-check"></i>All minutes & API costs included</li>
+        <li><i class="fa-solid fa-minus price-check"></i>Live in 7 business days</li>
+      </ul>
+      <div class="price-guarantee"><i class="fa-solid fa-shield-halved" style="color:var(--gold);font-size:11px;"></i> Month-to-month · Cancel anytime</div>
     </div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="py-24 fade-in" style="text-align:center;">
-  <div class="max-w-3xl mx-auto px-6">
-    <div style="font-size:13px; font-weight:500; color:#93b4f8; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px;">Ready to start?</div>
-    <h2 style="font-size:clamp(32px,5vw,54px); font-weight:800; line-height:1.1; margin-bottom:20px;">Your phones should never<br>go to voicemail again.</h2>
-    <p style="font-size:17px; color:#64748b; line-height:1.7; max-width:500px; margin:0 auto 40px;">Book a 30-minute demo. We'll walk through exactly how the AI would handle your calls — and you'll hear it live before you commit to anything.</p>
-    <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;">
-      <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-primary" style="font-size:17px; padding:16px 36px;">
-        Book Your Free Demo <i class="fa-solid fa-arrow-right text-xs ml-1"></i>
-      </a>
-      <a href="mailto:support@voiceopsai.space" class="btn-ghost" style="font-size:17px; padding:16px 36px;">
-        Email Us Instead
-      </a>
-    </div>
-    <p style="margin-top:20px; font-size:13px; color:#334155;">Sacramento County · No contracts · Live in 7 days</p>
+<section class="final-cta reveal">
+  <div class="section-tag" style="justify-content:center;">Ready to start</div>
+  <h2>Your next buyer <em>is calling right now.</em></h2>
+  <p>Book a 30-minute demo. We'll show you exactly how Alex handles your calls — live, before you commit to anything.</p>
+  <div class="btn-group" style="justify-content:center;">
+    <a href="https://calendly.com/huttybuddy/voice-ops-ai-free-demo-call" target="_blank" class="btn-gold" style="font-size:13px;padding:18px 44px;">
+      Book Your Free Demo <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i>
+    </a>
+    <a href="mailto:support@voiceopsai.space" class="btn-outline" style="font-size:13px;padding:18px 44px;">
+      Email Us Instead
+    </a>
   </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:24px;letter-spacing:0.08em;">Sacramento County · No contracts · Live in 7 days</p>
 </section>
 
 <!-- FOOTER -->
-<footer class="py-10">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-        <i class="fa-solid fa-phone-volume text-white text-xs"></i>
-      </div>
-      <span style="font-family:'Syne',sans-serif; font-weight:700; color:#64748b;">Voice Ops AI</span>
-    </div>
-    <p style="font-size:13px; color:#334155;">© 2026 Voice Ops AI LLC · Sacramento, CA</p>
-    <div style="display:flex; gap:20px; font-size:13px; color:#475569;">
-      <a href="#" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='#93b4f8'" onmouseout="this.style.color='#475569'">Privacy</a>
-      <a href="#" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='#93b4f8'" onmouseout="this.style.color='#475569'">Terms</a>
-      <a href="mailto:support@voiceopsai.space" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='#93b4f8'" onmouseout="this.style.color='#475569'">Contact</a>
-    </div>
+<footer>
+  <div class="footer-logo">Voice Ops <span>AI</span></div>
+  <p>© 2026 Voice Ops AI · Sacramento, CA</p>
+  <div class="footer-links">
+    <a href="mailto:support@voiceopsai.space">Contact</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
   </div>
 </footer>
 
 <script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px';
+  cursor.style.top = my - 4 + 'px';
+});
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx - 16 + 'px';
+  ring.style.top = ry - 16 + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2.5)'; ring.style.transform = 'translate(-12px,-12px) scale(1.5)'; ring.style.borderColor = 'rgba(201,168,76,0.7)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'translate(-12px,-12px) scale(1)'; ring.style.borderColor = 'rgba(201,168,76,0.4)'; });
+});
+
 // ROI Calculator
-const doorsEl = document.getElementById('doors');
-const rentEl = document.getElementById('rent');
-const vacancyEl = document.getElementById('vacancyDays');
-const callsEl = document.getElementById('missedCalls');
+const agentsEl = document.getElementById('agents');
+const commEl = document.getElementById('commission');
+const missedEl = document.getElementById('missed');
+const closeEl = document.getElementById('closeRate');
 
-function fmt(n) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+function fmt(n) { return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n); }
+
+function calc() {
+  const agents = parseInt(agentsEl.value);
+  const comm = parseInt(commEl.value);
+  const missed = parseInt(missedEl.value);
+  const rate = parseInt(closeEl.value) / 100;
+
+  document.getElementById('agentsVal').textContent = agents + ' agents';
+  document.getElementById('commVal').textContent = fmt(comm);
+  document.getElementById('missedVal').textContent = missed + ' calls';
+  document.getElementById('closeVal').textContent = Math.round(rate * 100) + '%';
+
+  const monthlyMissed = missed * 4;
+  const closedDeals = monthlyMissed * rate;
+  const monthly = Math.round(closedDeals * comm);
+  const annual = monthly * 12;
+
+  document.getElementById('lostComm').textContent = fmt(monthly);
+  document.getElementById('annualLost').textContent = fmt(annual);
 }
 
-function calcROI() {
-  const doors = parseInt(doorsEl.value);
-  const rent = parseInt(rentEl.value);
-  const days = parseInt(vacancyEl.value);
-  const calls = parseInt(callsEl.value);
+[agentsEl, commEl, missedEl, closeEl].forEach(el => el.addEventListener('input', calc));
+calc();
 
-  document.getElementById('doorsDisplay').textContent = doors + ' doors';
-  document.getElementById('rentDisplay').textContent = fmt(rent) + '/mo';
-  document.getElementById('daysDisplay').textContent = days + ' days';
-  document.getElementById('callsDisplay').textContent = calls + ' calls';
-
-  // Cost per missed call = daily rent * avg vacancy days * 20% conversion
-  const dailyRent = rent / 30;
-  const costPerMissedClose = dailyRent * days;
-  const monthlyMissed = calls * 4;
-  const conversionRate = 0.20;
-  const monthlyCost = Math.round(monthlyMissed * conversionRate * costPerMissedClose);
-
-  document.getElementById('lostRevenue').textContent = fmt(monthlyCost);
-}
-
-[doorsEl, rentEl, vacancyEl, callsEl].forEach(el => el.addEventListener('input', calcROI));
-calcROI();
-
-// Fade-in on scroll
-const observer = new IntersectionObserver((entries) => {
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
